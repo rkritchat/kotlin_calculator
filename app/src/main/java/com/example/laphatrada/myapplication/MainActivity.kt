@@ -54,22 +54,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         bt_plus.setOnClickListener {
-            operetorStr(cal, "+")
+            operatorStr(cal, "+")
         }
 
         bt_minus.setOnClickListener {
-            operetorStr(cal, "-")
+            operatorStr(cal, "-")
         }
 
         bt_multiply.setOnClickListener {
-            operetorStr(cal, "*")
+            operatorStr(cal, "*")
         }
 
         bt_divide.setOnClickListener {
-            operetorStr(cal, "/")
+            operatorStr(cal, "/")
         }
 
-        btn_result.setOnClickListener {
+        bt_result.setOnClickListener {
             calculate(cal)
         }
 
@@ -80,30 +80,41 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initNum(cal: Calculator, self: Int) {
-        var tmp = ""
+        var tmp : String
+        var monitorTxt :String = tv_monitor.text.toString()
         if("N1"==cal.step){
             tmp = cal.num1.toString()
             tmp+=self.toString()
             cal.num1 = tmp.toInt()
+            monitorTxt = cal.num1.toString()
         }else{
             tmp = cal.num2.toString()
             tmp+=self.toString()
             cal.num2 = tmp.toInt()
+            monitorTxt = "${cal.num1} ${cal.operatorStr} ${cal.num2}"
         }
+        tv_monitor.text = monitorTxt
     }
 
-    private fun operetorStr(cal: Calculator, ope : String){
+    private fun operatorStr(cal: Calculator, ope : String){
         cal.operatorStr = ope
         cal.step = "N2"
+        var monitorTxt :String = tv_monitor.text.toString()
+        monitorTxt+= " ${ope}"
+        tv_monitor.text = monitorTxt
     }
 
     private fun calculate(cal: Calculator){
-        when(cal.operatorStr){
-            "+" -> tv_monitor.text = (cal.num1 + cal.num2).toString()
-            "-" -> tv_monitor.text = (cal.num1 - cal.num2).toString()
-            "*" -> tv_monitor.text = (cal.num1 * cal.num2).toString()
-            "/" -> tv_monitor.text = (cal.num1 / cal.num2).toString()
+        var monitorTxt :String = tv_monitor.text.toString()
+        var result :String = when(cal.operatorStr){
+            "+" -> (cal.num1 + cal.num2).toString()
+            "-" -> (cal.num1 - cal.num2).toString()
+            "*" -> (cal.num1 * cal.num2).toString()
+            "/" -> (cal.num1 / cal.num2).toString()
+            else -> "fail"
         }
+        monitorTxt+= " = ${result}"
+        tv_monitor.text = monitorTxt
     }
 
 
